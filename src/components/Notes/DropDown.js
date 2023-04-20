@@ -51,7 +51,7 @@ function Dropdown({ onSelect }) {
       onKeyDown={handleKeyDown}
       size={options.length}
       style={{ border: 'none', outline: 'none', overflow: 'hidden' }}
-      onBlur={() => onSelect(options[selectIndex])}
+      onClick={() => onSelect(options[selectIndex])}
     >
       {options.map((option, ind) => (
         <option key={ind} value={option}>

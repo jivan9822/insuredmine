@@ -10,6 +10,7 @@ const AddNote = (props) => {
   const [enteredNote, setEnteredNote] = useState(''); // Store user input
   const [error, setError] = useState(); // If user will add empty note
   const [showDropDown, setShowDropDown] = useState(false); // To show drop-down
+  const [isFromDropDown, setIsFromDropDown] = useState(false);
   const textRef = useRef();
   const addNoteHandler = (event) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ const AddNote = (props) => {
 
     // Sending user input to parent component by props up-lifting onSubmit
     props.onAddNote(enteredNote);
-
+    setIsFromDropDown(false);
     // Clearing text-area after submit
     setEnteredNote('');
   };
@@ -41,6 +42,7 @@ const AddNote = (props) => {
     setEnteredNote(data);
     setShowDropDown(false); // hide drop-down
     textRef.current.focus();
+    setIsFromDropDown(true);
   };
 
   // Reset button will clear text-area
@@ -48,6 +50,7 @@ const AddNote = (props) => {
     e.preventDefault();
     setShowDropDown(false);
     setEnteredNote('');
+    setIsFromDropDown(false);
   };
 
   // Reading user input
@@ -65,7 +68,7 @@ const AddNote = (props) => {
   };
 
   return (
-    <div>
+    <div className={classes.mainContainer}>
       {error && (
         <ErrorModal
           title={error.title}
@@ -81,15 +84,22 @@ const AddNote = (props) => {
               <Dropdown onSelect={getDropDownInput} />
             </div>
           )}
-          <textarea
-            ref={textRef}
-            id='username'
-            type='text'
-            value={enteredNote}
-            onChange={usernameChangeHandler}
-            onKeyDown={onTextAreaKeyDown}
-            autoFocus
-          />
+          <div className={classes.textAreaDiv}>
+            {isFromDropDown ? (
+              <span className={classes.divSpan}>{enteredNote}</span>
+            ) : (
+              <textarea
+                ref={textRef}
+                id='username'
+                type='text'
+                value={enteredNote}
+                onChange={usernameChangeHandler}
+                onKeyDown={onTextAreaKeyDown}
+                autoFocus
+              />
+            )}
+          </div>
+
           <div className={classes.btnDiv}>
             <Button type='submit'>+Add Note</Button>
             <Button onClick={onResetClickHandler} type='submit'>

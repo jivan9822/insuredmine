@@ -4,16 +4,20 @@
   width: 90%;
   max-width: 40rem;
 }
-
+.mainContainer {
+  position: relative;
+}
 .input textarea {
   font: inherit;
   display: block;
   width: 100%;
-  height: 200px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  height: 160px;
+  margin: 0;
+  /* border: 1px solid #ccc;
+  border-radius: 10px; */
+  border: none;
   padding: 0.15rem;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
 }
 
 .input textarea:focus {
@@ -26,6 +30,21 @@
 }
 .dropDownPosition {
   position: absolute;
-  margin-left: 20px;
-  margin-top: 4px;
+  margin-left: 40px;
+  margin-top: 24px;
+}
+.textAreaDiv {
+  height: 200px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid black;
+  color: black;
+}
+.divSpan {
+  position: absolute;
+  background-color: yellow;
+  top: 9%;
+  left: 35%;
+  padding: 3px;
 }
