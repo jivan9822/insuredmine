@@ -1,3 +1,5 @@
+import { useState, useRef, useEffect } from 'react';
+
 function Dropdown({ classChange, onSelect }) {
   const options = [
     'Gina Williams',
@@ -8,22 +10,54 @@ function Dropdown({ classChange, onSelect }) {
     'Paula M. Keith',
   ];
 
-  const handleSelect = (value) => {
-    onSelect(value);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleOptionChange = (event) => {
+    const newIndex = event.target.selectedIndex;
+    setSelectedIndex(newIndex);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 38) {
+      // Up arrow
+      setSelectedIndex((prevIndex) =>
+        prevIndex === 0 ? options.length - 1 : prevIndex - 1
+      );
+      event.preventDefault();
+    } else if (event.keyCode === 40) {
+      // Down arrow
+      setSelectedIndex((prevIndex) =>
+        prevIndex === options.length - 1 ? 0 : prevIndex + 1
+      );
+      event.preventDefault();
+    } else if (event.keyCode === 13) {
+      // Enter key
+      onSelect(options[selectedIndex]);
+    }
+  };
+
+  const selectRef = useRef(null);
+
+  useEffect(() => {
+    selectRef.current.focus();
+  }, []);
+
   return (
-    <div className='dropdown-list'>
-      {options.map((option, index) => (
-        <div
-          key={index}
-          className='dropdown-item'
-          onClick={() => handleSelect(option)}
-        >
+    <select
+      ref={selectRef}
+      value={options[selectedIndex]}
+      onChange={handleOptionChange}
+      onKeyDown={handleKeyDown}
+      size={options.length}
+      style={{ border: 'none', outline: 'none', overflow: 'hidden' }}
+      onBlur={() => onSelect(options[selectedIndex])}
+    >
+      {options.map((option, ind) => (
+        <option key={ind} value={option}>
           {option}
-        </div>
+        </option>
       ))}
-    </div>
+    </select>
   );
 }
 
