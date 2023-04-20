@@ -42,7 +42,9 @@ const AddNote = (props) => {
     setEnteredNote(data);
     setShowDropDown(false); // hide drop-down
     textRef.current.focus();
-    setIsFromDropDown(true);
+    if (data === 'Paula M. Keith') {
+      setIsFromDropDown(true);
+    }
   };
 
   // Reset button will clear text-area
