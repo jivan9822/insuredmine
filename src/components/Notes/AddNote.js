@@ -6,11 +6,14 @@ import classes from './AddUser.module.css';
 import Dropdown from './DropDown';
 
 const AddNote = (props) => {
-  const [enteredNote, setEnteredNote] = useState('');
-  const [error, setError] = useState();
-  const [showDropDown, setShowDropDown] = useState(false);
+  const [enteredNote, setEnteredNote] = useState(''); // Store user input
+  const [error, setError] = useState(); // If user will add empty note
+  const [showDropDown, setShowDropDown] = useState(false); // To show drop-down
+
   const addUserHandler = (event) => {
     event.preventDefault();
+
+    // if user will try to add empty note will through error
     if (enteredNote.trim().length === 0) {
       setError({
         title: 'Invalid input',
@@ -18,25 +21,37 @@ const AddNote = (props) => {
       });
       return;
     }
-    props.onAddUser(enteredNote);
+
+    // Sending user input to parent component by props up-lifting onSubmit
+    props.onAddNote(enteredNote);
+
+    // Clearing text-area after submit
     setEnteredNote('');
   };
+
+  // function to get user selection from drop-down list
   const getDropDownInput = (data) => {
     setEnteredNote(data);
-    setShowDropDown(false);
+    setShowDropDown(false); // hide drop-down
   };
+
+  // Reset button will clear text-area
   const onResetClickHandler = (e) => {
     e.preventDefault();
     setShowDropDown(false);
     setEnteredNote('');
   };
+
+  // Reading user input
   const usernameChangeHandler = (event) => {
     setEnteredNote(event.target.value);
+    // if user type @ then show drop-down list
     if (event.target.value.trim() === '@') {
       setShowDropDown(true);
     }
   };
 
+  // This will close error window
   const errorHandler = () => {
     setError(null);
   };
@@ -50,6 +65,7 @@ const AddNote = (props) => {
           onConfirm={errorHandler}
         />
       )}
+      {/* This is custom Card component */}
       <Card className={classes.input}>
         <form onSubmit={addUserHandler}>
           {showDropDown && (

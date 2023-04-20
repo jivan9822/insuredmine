@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-function Dropdown({ classChange, onSelect }) {
+function Dropdown({ onSelect }) {
   const options = [
     'Gina Williams',
     'Jake Williams',
@@ -10,32 +10,33 @@ function Dropdown({ classChange, onSelect }) {
     'Paula M. Keith',
   ];
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectIndex, setSelectIndex] = useState(0);
 
   const handleOptionChange = (event) => {
     const newIndex = event.target.selectedIndex;
-    setSelectedIndex(newIndex);
+    setSelectIndex(newIndex);
   };
 
   const handleKeyDown = (event) => {
     if (event.keyCode === 38) {
       // Up arrow
-      setSelectedIndex((prevIndex) =>
+      setSelectIndex((prevIndex) =>
         prevIndex === 0 ? options.length - 1 : prevIndex - 1
       );
       event.preventDefault();
     } else if (event.keyCode === 40) {
       // Down arrow
-      setSelectedIndex((prevIndex) =>
+      setSelectIndex((prevIndex) =>
         prevIndex === options.length - 1 ? 0 : prevIndex + 1
       );
       event.preventDefault();
     } else if (event.keyCode === 13) {
       // Enter key
-      onSelect(options[selectedIndex]);
+      onSelect(options[selectIndex]);
     }
   };
 
+  // Using ref for autofocus
   const selectRef = useRef(null);
 
   useEffect(() => {
@@ -45,12 +46,12 @@ function Dropdown({ classChange, onSelect }) {
   return (
     <select
       ref={selectRef}
-      value={options[selectedIndex]}
+      value={options[selectIndex]}
       onChange={handleOptionChange}
       onKeyDown={handleKeyDown}
       size={options.length}
       style={{ border: 'none', outline: 'none', overflow: 'hidden' }}
-      onBlur={() => onSelect(options[selectedIndex])}
+      onBlur={() => onSelect(options[selectIndex])}
     >
       {options.map((option, ind) => (
         <option key={ind} value={option}>

@@ -1,14 +1,14 @@
 import React from 'react';
 
 import Card from '../UI/Card';
-import classes from './UsersList.module.css';
+import classes from './NoteList.module.css';
 
 const NotesList = (props) => {
   return (
     <Card className={classes.users}>
       <ul>
-        {props.users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+        {props.notes.map((note) => (
+          <li key={note.id}>{note.note}</li>
         ))}
       </ul>
     </Card>
